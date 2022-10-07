@@ -33,6 +33,15 @@ install.packages("pacman") # gestor de paquetes pro
 #git pull
 #git fetch
 #git checkout nombrebranch-cambiar de rama
+#git rm -r --cached borrar la cache
+#git rm -r borrar archivos
+#git restore --S recuperar archivos borrados
+#git diff comparar dos ramas
+#git log --oneline hsitorial de commits
+#git reset (commit) volver a un checkpoint
+#git switch -c (nombre) 
+#git merge combinar ramas
+#git clean -n borrar archivos untracked
 
 # TERMINAL COMMANDS -------------------------------------------------------
 #ls
@@ -53,24 +62,24 @@ Pao <- 20
 clase_lep <- c("Marta","Emilia","Pablo") ##combine()
 install.packages(c("tidyverse", "httr", "janitor"))
 ##  %>% ctrl + shift + m (pipe)
-df<-GET("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
+datos<-GET("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
 
 # READING AND WRITTING ----------------------------------------------------
 
 library(tidyverse)
 glimpse(preciosEESS_es)#se usa mazo invierte la tabla 
 
+
+# GETTING DATA FROM THE INTERNET ------------------------------------------
+library(tidyverse)
 library(xml2)
 library(httr)
 res_<-GET("https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/")
 xml2::read_xml(res_$content) # $ acceder dentro
-
 library(jsonlite)
 url_<-"https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/"
 f_raw<-jsonlite::fromJSON(url_)
 df_source<-f_raw$ListaEESSPrecio %>% glimpse()
-
 janitor::clean_names(df_source) %>% glimpse()
-
-type_convert(df_source,locale =)
-type
+#locale() ver configuración del dataset
+df<-df_source %>% janitor::clean_names() %>% type_convert(locale=locale(decimal_mark = ","))
