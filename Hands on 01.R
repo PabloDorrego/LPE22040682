@@ -95,7 +95,9 @@ df_low %>% select(precio_gasoleo_a,idccaa,rotulo,barato) %>% drop_na() %>% group
 ccaa<-c("Andalucía","Aragón","Asturis, Principado","de Balears, Illes"," Canarias","Cantabria","Castilla y León","	Castilla - La Mancha","Cataluña","Comunitat Valenciana","Extremadura","Galicia",	"Madrid", "Comunidad de	Murcia", "Región de Navarra, Comunidad Foral de","País Vasco","Rioja, La","Ceuta","Melilla")
 data_frame(ccaa=ccaa) %>% mutate(ccaa, idccaa = row_number()) %>% str()#str() muestra el tipo de dato
 id_ccaa<-c("01",'02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19')
-data_ccaa<-data_frame(ccaa=ccaa,idccaa=id_ccaa) %>% str()#ver el tipo
+data_frame(ccaa=ccaa,idccaa=id_ccaa) %>% str()#ver el tipo
 df_ccaa<-merge(x=df_low,y=data_ccaa,by="idccaa")
 #unique(df_low$idccaa) valores unicos de una columna
-df_ccaa %>% select(idccaa,ccaa) %>% unique()
+df_ccaa %>% select(idccaa,ccaa) %>% unique
+write.csv(df_low,file = "ds22040682(33).csv",row.names = FALSE,col.names = TRUE)
+write.csv(df_ccaa,file = "ds22040682(34).csv",row.names = FALSE,col.names = TRUE)
