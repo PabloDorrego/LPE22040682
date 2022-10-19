@@ -107,4 +107,32 @@ write.csv(df_ccaa,file = "ds22040682(34).csv",row.names = FALSE,col.names = TRUE
 # KAGGLE API COMMANDS -----------------------------------------------------
 # kaggle datasets list -s "keyword"
 # kaggle datasets download -d "ref"
+ 
 
+# Mapas -------------------------------------------------------------------
+
+options(max.print = 100000)
+pacman::p_load(httr,tidyverse,leaflet,janitor,readr,sparklyr)
+url<-"https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/"
+httr::GET(url)
+library(sparklyr)
+library(httr)
+library(tidyverse)
+library(leaflet)
+library(janitor)
+
+#Gasoleo A. Top 10 mas caras
+df_ccaa %>% select(rotulo, latitud, longitud_wgs84, precio_gasoleo_a, localidad, direccion) %>%
+  top_n(10, precio_gasoleo_a) %>% 
+  leaflet() %>% addTiles() %>%
+  addCircleMarkers(lng=~longitud_wgs84,lat=~latitud,popup=~rotulo,label= ~precio_gasoleo_a)
+#Gasoleo A. Top 20 m?s baratas
+df_ccaa %% select(rotulo, latitud, longitud_wgs84, precio_gasoleo_a, localidad, direccion) %>%
+  top_n(-20, precio_gasoleo_a) %>%
+  leaflet0 %>% addTiles0 %>%
+  addCircleMarkers(lng=~longitud_wgs84, lat = ~latitud, popup = ~rotulo, label = ~precio_gasoleo_a)
+#Gasoleo A. Top 10 baratas huesca
+df_ccaa %>% filter(provincia=="HUESCA")%>% select(rotulo, latitud, longitud_wgs84, precio_gasoleo_a, localidad, direccion,id_provincia=22) %>%
+  top_n(-10, precio_gasoleo_a) %>%
+  leaflet() %>% addTiles() %>%
+  addCircleMarkers(lng=~longitud_wgs84, lat = ~latitud, popup = ~rotulo, label = ~precio_gasoleo_a)
